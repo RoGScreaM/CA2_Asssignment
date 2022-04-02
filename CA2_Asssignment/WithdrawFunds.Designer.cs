@@ -114,7 +114,7 @@
             // 
             // btnwithdraw
             // 
-            this.btnwithdraw.Location = new System.Drawing.Point(287, 394);
+            this.btnwithdraw.Location = new System.Drawing.Point(303, 393);
             this.btnwithdraw.Name = "btnwithdraw";
             this.btnwithdraw.Size = new System.Drawing.Size(203, 56);
             this.btnwithdraw.TabIndex = 14;

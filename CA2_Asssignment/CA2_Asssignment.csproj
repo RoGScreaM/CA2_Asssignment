@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add Customer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add Customer.Designer.cs">
+      <DependentUpon>Add Customer.cs</DependentUpon>
+    </Compile>
     <Compile Include="DepositFunds.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +85,9 @@
     <Compile Include="WithdrawFunds.Designer.cs">
       <DependentUpon>WithdrawFunds.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Add Customer.resx">
+      <DependentUpon>Add Customer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DepositFunds.resx">
       <DependentUpon>DepositFunds.cs</DependentUpon>
     </EmbeddedResource>

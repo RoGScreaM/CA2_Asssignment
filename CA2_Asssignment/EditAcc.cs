@@ -57,7 +57,7 @@ namespace CA2_Asssignment
 
         void GetAccNo()
         {
-            string select = "SELECT * FROM Customer";
+            string select = "SELECT * FROM MyCustomer";
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());
 
@@ -74,7 +74,7 @@ namespace CA2_Asssignment
 
         void GetNames()
         {
-            string select = "SELECT * FROM Customer WHERE AccountNo = @accno";
+            string select = "SELECT * FROM MyCustomer WHERE AccountNo = @accno";
             string AcNo = cboAccNo.SelectedItem.ToString();
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());

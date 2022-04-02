@@ -25,6 +25,7 @@ namespace CA2_Asssignment
         private void DepositFunds_Load(object sender, EventArgs e)
         {
             GetAccNo();
+            
         }
 
         private void cboAccNo_SelectedIndexChanged(object sender, EventArgs e)
@@ -39,13 +40,14 @@ namespace CA2_Asssignment
             int accno = int.Parse(cboAccNo.SelectedItem.ToString());
             decimal DAmount = decimal.Parse(txtDAmount.Text);
             decimal bal = decimal.Parse(lblBal.Text);
-            decimal newamount = DAmount + bal;
+            decimal newamount = (DAmount + bal) * 100;
 
-            string update = "UPDATE Customer SET InitialBalance = @na WHERE AccountNo = @accno";
+            string update = "UPDATE MyCustomer SET InitialBalance = @na,Amount = @am WHERE AccountNo = @accno";
 
             SqlCommand cmd = new SqlCommand(update, dao.OpenCon());
             cmd.Parameters.AddWithValue("@accno", accno);
             cmd.Parameters.AddWithValue("@na",newamount);
+            cmd.Parameters.AddWithValue("@am", DAmount);
 
             cmd.ExecuteNonQuery();
             dao.CloseCon();
@@ -66,7 +68,7 @@ namespace CA2_Asssignment
 
         void GetAccNo()
         {
-            string select = "SELECT * FROM Customer";
+            string select = "SELECT * FROM MyCustomer";
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());
 
@@ -83,7 +85,7 @@ namespace CA2_Asssignment
 
         void GetNames()
         {
-            string select = "SELECT * FROM Customer WHERE AccountNo = @accno";
+            string select = "SELECT * FROM MyCustomer WHERE AccountNo = @accno";
             string AcNo = cboAccNo.SelectedItem.ToString();
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());
@@ -95,7 +97,7 @@ namespace CA2_Asssignment
             {
                 string fn = dr["Firstname"].ToString();
                 string sn = dr["Surname"].ToString();
-                decimal bal = decimal.Parse(dr["InitialBalance"].ToString());
+                decimal bal = decimal.Parse(dr["InitialBalance"].ToString())/100;
                 lblname.Text = fn + " " + sn;
                 lblBal.Text = bal.ToString();
                 

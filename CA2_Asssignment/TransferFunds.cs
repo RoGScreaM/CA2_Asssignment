@@ -25,6 +25,7 @@ namespace CA2_Asssignment
         private void TransferFunds_Load(object sender, EventArgs e)
         {
             GetAccNo();
+            
         }
         private void cboSenderAccNo_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -52,6 +53,7 @@ namespace CA2_Asssignment
 
             Random r = new Random();
             int RNo = r.Next(1000,1000000);
+            txtRSortCode.Text = RNo.ToString(); 
 
             
             
@@ -60,7 +62,7 @@ namespace CA2_Asssignment
             decimal Limit = SBalance + ODLimit;
 
             
-            if(rdoSavings.Checked && SortCode == 101010)
+            if(lblAccType.Text == "Savings Account" && SortCode == 101010)
             {
                 if(TAmount <= Limit)
                 {
@@ -78,11 +80,12 @@ namespace CA2_Asssignment
                 }
 
             }
-            else if(rdoSavings.Checked && SortCode != 101010)
+            else if(lblAccType.Text == "Savings Account" && SortCode != 101010)
             {
                 MessageBox.Show( "This Transfer cannot be made as it is a Savings Account", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information); ;
+                txtRSortCode.Clear();
             }
-            else if(rdoCurrent.Checked)
+            else if(lblAccType.Text == "Current Account")
             {
                 SenderTransfer();
                 RecieverTransfer();
@@ -102,7 +105,7 @@ namespace CA2_Asssignment
             int accno = int.Parse(cboSenderAccNo.SelectedItem.ToString());
             decimal TAmount = decimal.Parse(txtTAmount.Text);
             decimal bal = decimal.Parse(lblBal.Text);
-            decimal newamount = bal - TAmount;
+            decimal newamount = (bal - TAmount)*100;
 
 
             decimal ODLimit = decimal.Parse(lblOL.Text);
@@ -111,11 +114,12 @@ namespace CA2_Asssignment
 
             if (TAmount <= Limit)
             {
-                string update = "UPDATE Customer SET InitialBalance = @na WHERE AccountNo = @accno";
+                string update = "UPDATE MyCustomer SET InitialBalance = @na,Amount = @am WHERE AccountNo = @accno";
 
                 SqlCommand cmd = new SqlCommand(update, dao.OpenCon());
                 cmd.Parameters.AddWithValue("@accno", accno);
                 cmd.Parameters.AddWithValue("@na", newamount);
+                cmd.Parameters.AddWithValue("@am", TAmount);
 
                 cmd.ExecuteNonQuery();
                 dao.CloseCon();
@@ -135,15 +139,16 @@ namespace CA2_Asssignment
             int accno = int.Parse(cboRecieverAccNo.SelectedItem.ToString());
             decimal RAmount = decimal.Parse(txtTAmount.Text);
             decimal bal = decimal.Parse(lblBal.Text);
-            decimal newamount = GetRecieverBalance(bal) + RAmount  ; 
+            decimal newamount = (GetRecieverBalance(bal) + RAmount)* 100; 
 
             
 
-            string update = "UPDATE Customer SET InitialBalance = @na WHERE AccountNo = @accno";
+            string update = "UPDATE MyCustomer SET InitialBalance = @na,Amount = @am WHERE AccountNo = @accno";
 
             SqlCommand cmd = new SqlCommand(update, dao.OpenCon());
             cmd.Parameters.AddWithValue("@accno", accno);
             cmd.Parameters.AddWithValue("@na", newamount);
+            cmd.Parameters.AddWithValue("@am", RAmount);
 
             cmd.ExecuteNonQuery();
             dao.CloseCon();
@@ -152,6 +157,8 @@ namespace CA2_Asssignment
             lblBal.Text = "";
             lblname.Text = "";
             cboRecieverAccNo.Text = "";
+            lblAccType.Text = "";
+            txtRSortCode.Clear();
 
         }
 
@@ -160,7 +167,7 @@ namespace CA2_Asssignment
         // methods to populate combobox and labels
         void GetAccNo()
         {
-            string select = "SELECT * FROM Customer";
+            string select = "SELECT * FROM MyCustomer";
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());
 
@@ -179,7 +186,7 @@ namespace CA2_Asssignment
 
         void GetSenderNames()
         {
-            string select = "SELECT * FROM Customer WHERE AccountNo = @accno";
+            string select = "SELECT * FROM MyCustomer WHERE AccountNo = @accno";
             string AcNo = cboSenderAccNo.SelectedItem.ToString();
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());
@@ -191,11 +198,13 @@ namespace CA2_Asssignment
             {
                 string fn = dr["Firstname"].ToString();
                 string sn = dr["Surname"].ToString();
-                decimal bal = decimal.Parse(dr["InitialBalance"].ToString());
+                decimal bal = decimal.Parse(dr["InitialBalance"].ToString())/100;
                 decimal OverDLimit = decimal.Parse(dr["OverdraftLimit"].ToString());
+                string AccType = dr["AccountType"].ToString();
                 lblname.Text = fn + " " + sn;
                 lblBal.Text = bal.ToString();
                 lblOL.Text = OverDLimit.ToString();
+                lblAccType.Text = AccType;
 
             }
 
@@ -204,7 +213,7 @@ namespace CA2_Asssignment
 
         void GetRecieverNames()
         {
-            string select = "SELECT * FROM Customer WHERE AccountNo = @accno";
+            string select = "SELECT * FROM MyCustomer WHERE AccountNo = @accno";
             string AcNo = cboRecieverAccNo.SelectedItem.ToString();
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());
@@ -216,7 +225,7 @@ namespace CA2_Asssignment
             {
                 string fn = dr["Firstname"].ToString();
                 string sn = dr["Surname"].ToString();
-                decimal bal = decimal.Parse(dr["InitialBalance"].ToString());
+                decimal bal = decimal.Parse(dr["InitialBalance"].ToString())/100;
                 int SCode = int.Parse(dr["SortCode"].ToString());
                 lblRname.Text = fn + " " + sn;
                 txtRSortCode.Text = SCode.ToString();
@@ -228,7 +237,7 @@ namespace CA2_Asssignment
         public decimal GetRecieverBalance(decimal bal)
         {
 
-            string select = "SELECT * FROM Customer WHERE AccountNo = @accno";
+            string select = "SELECT * FROM MyCustomer WHERE AccountNo = @accno";
             string AcNo = cboRecieverAccNo.SelectedItem.ToString();
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());
@@ -239,7 +248,7 @@ namespace CA2_Asssignment
             while (dr.Read())
             {
                 
-                 bal = decimal.Parse(dr["InitialBalance"].ToString());               
+                 bal = decimal.Parse(dr["InitialBalance"].ToString())/100;               
                  lblBal.Text = bal.ToString();
                 
             }

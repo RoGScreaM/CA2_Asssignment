@@ -29,6 +29,15 @@
         private void InitializeComponent()
         {
             this.grpTransfer = new System.Windows.Forms.GroupBox();
+            this.lblOL = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtRSortCode = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cboRecieverAccNo = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblRname = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.lblBal = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtTAmount = new System.Windows.Forms.TextBox();
@@ -38,26 +47,15 @@
             this.btnTransferFunds = new System.Windows.Forms.Button();
             this.lblname = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.cboRecieverAccNo = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lblRname = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtRSortCode = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.rdoSavings = new System.Windows.Forms.RadioButton();
-            this.rdoCurrent = new System.Windows.Forms.RadioButton();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lblOL = new System.Windows.Forms.Label();
+            this.lblAccType = new System.Windows.Forms.Label();
             this.grpTransfer.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpTransfer
             // 
+            this.grpTransfer.Controls.Add(this.lblAccType);
             this.grpTransfer.Controls.Add(this.lblOL);
             this.grpTransfer.Controls.Add(this.label7);
-            this.grpTransfer.Controls.Add(this.rdoCurrent);
-            this.grpTransfer.Controls.Add(this.rdoSavings);
             this.grpTransfer.Controls.Add(this.txtRSortCode);
             this.grpTransfer.Controls.Add(this.label5);
             this.grpTransfer.Controls.Add(this.label3);
@@ -81,6 +79,85 @@
             this.grpTransfer.TabIndex = 3;
             this.grpTransfer.TabStop = false;
             this.grpTransfer.Text = "Transfer Funds";
+            // 
+            // lblOL
+            // 
+            this.lblOL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.lblOL.Location = new System.Drawing.Point(286, 158);
+            this.lblOL.Name = "lblOL";
+            this.lblOL.Size = new System.Drawing.Size(329, 34);
+            this.lblOL.TabIndex = 32;
+            this.lblOL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(20, 163);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(153, 25);
+            this.label7.TabIndex = 31;
+            this.label7.Text = "Overdraft Limit";
+            // 
+            // txtRSortCode
+            // 
+            this.txtRSortCode.Location = new System.Drawing.Point(849, 359);
+            this.txtRSortCode.Name = "txtRSortCode";
+            this.txtRSortCode.Size = new System.Drawing.Size(219, 30);
+            this.txtRSortCode.TabIndex = 28;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(643, 362);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(194, 25);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Reciever SortCode";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(20, 221);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(146, 25);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Account Type";
+            // 
+            // cboRecieverAccNo
+            // 
+            this.cboRecieverAccNo.FormattingEnabled = true;
+            this.cboRecieverAccNo.Location = new System.Drawing.Point(280, 359);
+            this.cboRecieverAccNo.Name = "cboRecieverAccNo";
+            this.cboRecieverAccNo.Size = new System.Drawing.Size(331, 33);
+            this.cboRecieverAccNo.TabIndex = 24;
+            this.cboRecieverAccNo.SelectedIndexChanged += new System.EventHandler(this.cboRecieverAccNo_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(16, 362);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(210, 25);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "Transfer To Account";
+            // 
+            // lblRname
+            // 
+            this.lblRname.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.lblRname.Location = new System.Drawing.Point(282, 422);
+            this.lblRname.Name = "lblRname";
+            this.lblRname.Size = new System.Drawing.Size(329, 34);
+            this.lblRname.TabIndex = 22;
+            this.lblRname.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(16, 431);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(222, 25);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "Account Holder Name";
             // 
             // lblBal
             // 
@@ -162,106 +239,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Account Holder Name";
             // 
-            // cboRecieverAccNo
+            // lblAccType
             // 
-            this.cboRecieverAccNo.FormattingEnabled = true;
-            this.cboRecieverAccNo.Location = new System.Drawing.Point(280, 359);
-            this.cboRecieverAccNo.Name = "cboRecieverAccNo";
-            this.cboRecieverAccNo.Size = new System.Drawing.Size(331, 33);
-            this.cboRecieverAccNo.TabIndex = 24;
-            this.cboRecieverAccNo.SelectedIndexChanged += new System.EventHandler(this.cboRecieverAccNo_SelectedIndexChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 362);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(210, 25);
-            this.label6.TabIndex = 23;
-            this.label6.Text = "Transfer To Account";
-            // 
-            // lblRname
-            // 
-            this.lblRname.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.lblRname.Location = new System.Drawing.Point(282, 422);
-            this.lblRname.Name = "lblRname";
-            this.lblRname.Size = new System.Drawing.Size(329, 34);
-            this.lblRname.TabIndex = 22;
-            this.lblRname.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(16, 431);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(222, 25);
-            this.label8.TabIndex = 21;
-            this.label8.Text = "Account Holder Name";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 212);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(146, 25);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Account Type";
-            // 
-            // txtRSortCode
-            // 
-            this.txtRSortCode.Location = new System.Drawing.Point(849, 359);
-            this.txtRSortCode.Name = "txtRSortCode";
-            this.txtRSortCode.Size = new System.Drawing.Size(219, 30);
-            this.txtRSortCode.TabIndex = 28;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(643, 362);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(194, 25);
-            this.label5.TabIndex = 27;
-            this.label5.Text = "Reciever SortCode";
-            // 
-            // rdoSavings
-            // 
-            this.rdoSavings.AutoSize = true;
-            this.rdoSavings.Checked = true;
-            this.rdoSavings.Location = new System.Drawing.Point(284, 212);
-            this.rdoSavings.Name = "rdoSavings";
-            this.rdoSavings.Size = new System.Drawing.Size(196, 29);
-            this.rdoSavings.TabIndex = 29;
-            this.rdoSavings.TabStop = true;
-            this.rdoSavings.Text = "Savings Account";
-            this.rdoSavings.UseVisualStyleBackColor = true;
-            // 
-            // rdoCurrent
-            // 
-            this.rdoCurrent.AutoSize = true;
-            this.rdoCurrent.Location = new System.Drawing.Point(535, 212);
-            this.rdoCurrent.Name = "rdoCurrent";
-            this.rdoCurrent.Size = new System.Drawing.Size(190, 29);
-            this.rdoCurrent.TabIndex = 30;
-            this.rdoCurrent.Text = "Current Account";
-            this.rdoCurrent.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(20, 163);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(153, 25);
-            this.label7.TabIndex = 31;
-            this.label7.Text = "Overdraft Limit";
-            // 
-            // lblOL
-            // 
-            this.lblOL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.lblOL.Location = new System.Drawing.Point(286, 158);
-            this.lblOL.Name = "lblOL";
-            this.lblOL.Size = new System.Drawing.Size(329, 34);
-            this.lblOL.TabIndex = 32;
-            this.lblOL.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAccType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.lblAccType.Location = new System.Drawing.Point(282, 212);
+            this.lblAccType.Name = "lblAccType";
+            this.lblAccType.Size = new System.Drawing.Size(329, 34);
+            this.lblAccType.TabIndex = 33;
+            this.lblAccType.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TransferFunds
             // 
@@ -297,9 +282,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtRSortCode;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RadioButton rdoCurrent;
-        private System.Windows.Forms.RadioButton rdoSavings;
         private System.Windows.Forms.Label lblOL;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblAccType;
     }
 }

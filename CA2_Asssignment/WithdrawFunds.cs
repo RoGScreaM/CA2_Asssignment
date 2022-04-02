@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using DAL;
+using System.Windows;
+using System.IO;
 
 namespace CA2_Asssignment
 {
@@ -33,44 +35,11 @@ namespace CA2_Asssignment
         DAO dao = new DAO();
         SqlDataReader dr;
 
-        private void btnwithdraw_Click(object sender, EventArgs e)
-        {
-            int accno = int.Parse(cboAccNo.SelectedItem.ToString());
-            decimal WAmount = decimal.Parse(txtWAmount.Text);
-            decimal bal = decimal.Parse(lblBal.Text);
-            decimal newamount = bal - WAmount ;
-
-            if (WAmount < bal)
-            {
-                string update = "UPDATE Customer SET InitialBalance = @na WHERE AccountNo = @accno";
-
-                SqlCommand cmd = new SqlCommand(update, dao.OpenCon());
-                cmd.Parameters.AddWithValue("@accno", accno);
-                cmd.Parameters.AddWithValue("@na", newamount);
-
-                cmd.ExecuteNonQuery();
-                dao.CloseCon();
-
-                MessageBox.Show("Withdrawl Successfull", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                txtWAmount.Clear();
-                lblBal.Text = "";
-                lblname.Text = "";
-                cboAccNo.Text = "";
-            }
-            else
-            {
-                MessageBox.Show($"Withdrawl Amount cannot excced your balance: {bal} \nPlease Try Again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-
-        }
-
-
+      
 
         void GetAccNo()
         {
-            string select = "SELECT * FROM Customer";
+            string select = "SELECT * FROM MyCustomer";
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());
 
@@ -87,7 +56,7 @@ namespace CA2_Asssignment
 
         void GetNames()
         {
-            string select = "SELECT * FROM Customer WHERE AccountNo = @accno";
+            string select = "SELECT * FROM MyCustomer WHERE AccountNo = @accno";
             string AcNo = cboAccNo.SelectedItem.ToString();
 
             SqlCommand cmd = new SqlCommand(select, dao.OpenCon());
@@ -99,7 +68,7 @@ namespace CA2_Asssignment
             {
                 string fn = dr["Firstname"].ToString();
                 string sn = dr["Surname"].ToString();
-                decimal bal = decimal.Parse(dr["InitialBalance"].ToString());
+                decimal bal = decimal.Parse(dr["InitialBalance"].ToString())/100;
                 lblname.Text = fn + " " + sn;
                 lblBal.Text = bal.ToString();
 
@@ -108,7 +77,53 @@ namespace CA2_Asssignment
             dao.CloseCon();
         }
 
+      
+        private void btnwithdraw_Click(object sender, EventArgs e)
+        {
+            int accno = int.Parse(cboAccNo.SelectedItem.ToString());
+            decimal WAmount = decimal.Parse(txtWAmount.Text);
+            decimal bal = decimal.Parse(lblBal.Text);
+            decimal newamount = (bal - WAmount) * 100;
 
+            if (WAmount <= bal)
+            {
+                if (newamount == 0)
+                {
 
+                    DialogResult result = MessageBox.Show("Your Account Balance will be 0", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+                    if (result == DialogResult.OK)
+                    {
+
+                        string update = "UPDATE MyCustomer SET InitialBalance = @na, Amount = @am WHERE AccountNo = @accno";
+
+                        SqlCommand cmd = new SqlCommand(update, dao.OpenCon());
+                        cmd.Parameters.AddWithValue("@accno", accno);
+                        cmd.Parameters.AddWithValue("@na", newamount);
+                        cmd.Parameters.AddWithValue("@am", WAmount);
+
+                        cmd.ExecuteNonQuery();
+                        dao.CloseCon();
+
+                        MessageBox.Show("Withdrawl Successfull", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        txtWAmount.Clear();
+                        lblBal.Text = "";
+                        lblname.Text = "";
+                        cboAccNo.Text = "";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Withdrawl Aborted", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                }
+            }
+            else
+            {
+                MessageBox.Show($"Withdrawl Amount cannot excced your balance: {bal} \nPlease Try Again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }
